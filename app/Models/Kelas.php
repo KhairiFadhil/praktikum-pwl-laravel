@@ -6,10 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Kelas extends Model
 {
-    protected $guarded = ['id'];
+    protected $table = 'kelas';
 
-    public function user()
+    protected $fillable = ['nama_kelas'];
+
+    /**
+     * Ambil seluruh data kelas.
+     */
+    public function getKelas()
     {
-        return $this->hasMany(UserModel::class, 'kelas_id');
+        return self::all();
     }
 }
