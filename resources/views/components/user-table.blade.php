@@ -22,14 +22,12 @@
                         <a href="{{ route('user.edit', $user->id) }}" class="btn btn-sm btn-outline-primary">
                             Edit
                         </a>
-                        <form action="{{ route('user.destroy', $user->id) }}" method="POST" class="d-inline">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-outline-danger"
-                                onclick="return confirm('Yakin ingin menghapus pengguna {{ $user->nama }}?')">
-                                Hapus
-                            </button>
-                        </form>
+                        <button type="button" class="btn btn-sm btn-outline-danger"
+                            data-bs-toggle="modal" data-bs-target="#deleteModal"
+                            data-action="{{ route('user.destroy', $user->id) }}"
+                            data-name="pengguna {{ $user->nama }}">
+                            Hapus
+                        </button>
                     </td>
                 </tr>
             @empty
