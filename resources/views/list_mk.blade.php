@@ -1,36 +1,40 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="row justify-content-center">
-    <div class="col-md-6">
-        <div class="card shadow-sm">
-            <div class="card-body">
-                <h1 class="h4 mb-4">Buat Mata Kuliah Baru</h1>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 mb-0">Daftar Mata Kuliah</h1>
+    <a href="{{ route('matakuliah.create') }}" class="btn btn-primary">+ Tambah Mata Kuliah</a>
+</div>
 
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul class="mb-0">
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
+@if (session('success'))
+    <div class="alert alert-success">{{ session('success') }}</div>
+@endif
 
-                <form action="{{ route('matakuliah.store') }}" method="POST">
-                    @csrf
-                    <div class="mb-3">
-                        <label for="nama_mk" class="form-label">Nama Mata Kuliah</label>
-                        <input type="text" class="form-control" id="nama_mk" name="nama_mk" value="{{ old('nama_mk') }}">
-                    </div>
-                    <div class="mb-3">
-                        <label for="sks" class="form-label">SKS</label>
-                        <input type="number" class="form-control" id="sks" name="sks" value="{{ old('sks') }}">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                    <a href="{{ route('matakuliah.index') }}" class="btn btn-outline-secondary">Lihat Daftar</a>
-                </form>
-            </div>
+<div class="card shadow-sm">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover align-middle mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Nama Mata Kuliah</th>
+                        <th>SKS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($mks as $mk)
+                        <tr>
+                            <td><code>{{ $mk->id }}</code></td>
+                            <td>{{ $mk->nama_mk }}</td>
+                            <td>{{ $mk->sks }}</td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="3" class="text-center text-muted py-4">Belum ada data mata kuliah.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
