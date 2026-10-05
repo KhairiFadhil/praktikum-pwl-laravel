@@ -19,6 +19,7 @@
                         <th>ID</th>
                         <th>Nama Mata Kuliah</th>
                         <th>SKS</th>
+                        <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -27,6 +28,14 @@
                             <td><code>{{ $mk->id }}</code></td>
                             <td>{{ $mk->nama_mk }}</td>
                             <td>{{ $mk->sks }}</td>
+                            <td>
+                                <a href="{{ route('matakuliah.edit', $mk->id) }}" class="btn btn-sm btn-outline-primary">Edit</a>
+                                <form action="{{ route('matakuliah.destroy', $mk->id) }}" method="POST" class="d-inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus mata kuliah ini?')">Hapus</button>
+                                </form>
+                            </td>
                         </tr>
                     @empty
                         <tr>
