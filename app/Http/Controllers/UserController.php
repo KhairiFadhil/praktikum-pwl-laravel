@@ -56,4 +56,48 @@ class UserController extends Controller
 
         return redirect('/user')->with('success', 'Pengguna berhasil ditambahkan.');
     }
+
+    /**
+     * Tampilkan form edit pengguna berdasarkan ID.
+     */
+    public function edit($id)
+    {
+        $user  = UserModel::findOrFail($id);
+        $kelas = (new Kelas())->getKelas();
+        $title = 'Edit Pengguna';
+
+        return view('edit_user', compact('user', 'kelas', 'title'));
+    }
+
+    /**
+     * Simpan perubahan data pengguna ke database.
+     */
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'nama'     => 'required|string|max:255',
+            'npm'      => 'required|string|max:20|unique:users,nim,' . $id . ',id',
+            'kelas_id' => 'required|exists:kelas,id',
+        ]);
+
+        $user = UserModel::findOrFail($id);
+        $user->update([
+            'nama'     => $request->nama,
+            'nim'      => $request->npm, // input npm dipetakan ke kolom nim
+            'kelas_id' => $request->kelas_id,
+        ]);
+
+        return redirect('/user')->with('success', 'Pengguna berhasil diperbarui.');
+    }
+
+    /**
+     * Hapus data pengguna dari database.
+     */
+    public function destroy($id)
+    {
+        $user = UserModel::findOrFail($id);
+        $user->delete();
+
+        return redirect('/user')->with('success', 'Pengguna berhasil dihapus.');
+    }
 }
